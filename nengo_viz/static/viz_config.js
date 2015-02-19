@@ -71,8 +71,6 @@ VIZ.Config.plot = function(self){
             self.old_x = self.div.getAttribute('data-x');
             self.old_y = self.div.getAttribute('data-y');
             self.on_resize(w, h);
-            self.div.style.height = h;
-            self.div.style.width = w;
             self.div.style.backgroundColor = 'white';
             VIZ.set_transform(self.div, 0, 0);
             self.full_screen = true;

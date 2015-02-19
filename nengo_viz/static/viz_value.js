@@ -107,6 +107,10 @@ VIZ.Value = function(args) {
              .style('stroke', function(d, i) {return colors[i];});
 
     this.on_resize(args.width, args.height);
+
+    this.div.addEventListener('mousewheel', function(e){
+        self.on_scroll(e, self.width, self.height)});
+
 };
 VIZ.Value.prototype = Object.create(VIZ.Component.prototype);
 VIZ.Value.prototype.constructor = VIZ.Value;
@@ -118,6 +122,12 @@ VIZ.Value.prototype.on_message = function(event) {
     var data = new Float32Array(event.data);
     this.data_store.push(data);
     this.schedule_update();
+}
+
+VIZ.Value.prototype.on_scroll = function(e,w,h) {
+    var scroll_speed = 10
+    var movement = (e.deltaY/53) * scroll_speed;
+    this.on_resize(w + movement, h + movement)
 }
    
 /**
@@ -159,6 +169,8 @@ VIZ.Value.prototype.on_resize = function(width, height) {
     this.full_screen = false;
     this.width = width;
     this.height = height;
+    this.div.style.width = width;
+    this.div.style.height = height;
     this.div.style.backgroundColor = 'rgba(255,0,0,0)';
     this.scale_x.range([this.margin_left, width - this.margin_right]);
     this.scale_y.range([height - this.margin_bottom, this.margin_top]);
