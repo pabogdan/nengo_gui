@@ -166,6 +166,11 @@ VIZ.Value.prototype.update = function() {
  * Adjust the graph layout due to changed size
  */
 VIZ.Value.prototype.on_resize = function(width, height) {
+
+    //Don't resize in this case
+    if (width < this.minWidth || height < this.minHeight) {
+        return;
+    }
     this.full_screen = false;
     this.width = width;
     this.height = height;
