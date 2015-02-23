@@ -144,24 +144,7 @@ VIZ.TimeSlider = function(args) {
     interact(this.shown_div)
         .draggable({
             onmove: function (event) {
-                /** determine where we have been dragged to in time */
-                var x = self.kept_scale(self.first_shown_time) + event.dx;
-                var new_time = self.kept_scale.invert(x);
-
-                /** make sure we're within bounds */
-                if (new_time > self.last_time - self.shown_time) {
-                    new_time = self.last_time - self.shown_time;
-                }
-                if (new_time < self.last_time - self.kept_time) {
-                    new_time = self.last_time - self.kept_time;
-                }
-                self.first_shown_time = new_time;
-                
-                x = self.kept_scale(new_time);
-                VIZ.set_transform(event.target, x, 0);
-
-                /** update any components who need to know the time changed */
-                self.sim.div.dispatchEvent(new Event('adjust_time'));
+                self.time_adjust(event.dx, event.target);
             }
         })
         
@@ -178,9 +161,35 @@ VIZ.TimeSlider = function(args) {
         .attr("class", "axis")
         .attr("transform", "translate(0," + (args.height / 2) + ")")
         .call(this.axis);
+    //Add scroll listener
+    this.div.addEventListener('mousewheel', function(e){
+        self.on_scroll(e);
+    });
     
 }
 
+// Pass the movement and the slider object to time_adjust
+VIZ.TimeSlider.prototype.time_adjust = function(dx, target) {
+    var self = this;
+    /** determine where we have been dragged to in time */
+    var x = self.kept_scale(self.first_shown_time) + dx;
+    var new_time = self.kept_scale.invert(x);
+
+    /** make sure we're within bounds */
+    if (new_time > self.last_time - self.shown_time) {
+        new_time = self.last_time - self.shown_time;
+    }
+    if (new_time < self.last_time - self.kept_time) {
+        new_time = self.last_time - self.kept_time;
+    }
+    self.first_shown_time = new_time;
+    
+    x = self.kept_scale(new_time);
+    VIZ.set_transform(target, x, 0);
+
+    /** update any components who need to know the time changed */
+    self.sim.div.dispatchEvent(new Event('adjust_time'));    
+}
 
 /**
  * Adjust size and location of parts based on overall size
@@ -209,4 +218,11 @@ VIZ.TimeSlider.prototype.update_times = function(time) {
     /** update the time axis display */
     this.axis_g
         .call(this.axis);
+}
+
+VIZ.TimeSlider.prototype.on_scroll = function(event) {
+    //Arbitrary scroll speed that seems appropriate
+    var scroll_speed = 5;
+    var movement = (event.deltaY / 53) * scroll_speed;
+    this.time_adjust(movement, this.shown_div);
 }

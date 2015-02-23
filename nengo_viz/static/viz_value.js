@@ -21,7 +21,6 @@ VIZ.Value = function(args) {
     var menu = VIZ.Config.plot(self);
     this.div.appendChild(menu);
     this.div.menu = menu;
-    console.log(this);
 
     this.n_lines = args.n_lines || 1;
     this.sim = args.sim;
@@ -47,6 +46,7 @@ VIZ.Value = function(args) {
     this.margin_right = 40;
     this.supression_width = 150;
 
+    // Add axis times
     var axis_time_end =this.svg.append("text")
                     .text("Time: NULL")
                     .attr('class', 'graph_text')
@@ -111,8 +111,10 @@ VIZ.Value = function(args) {
 
     this.on_resize(args.width, args.height);
 
+    //add scroll listener
     this.div.addEventListener('mousewheel', function(e){
-        self.on_scroll(e, self.width, self.height)});
+        self.on_scroll(e, self.width, self.height)
+    });
 
 };
 VIZ.Value.prototype = Object.create(VIZ.Component.prototype);
@@ -129,7 +131,7 @@ VIZ.Value.prototype.on_message = function(event) {
 
 VIZ.Value.prototype.on_scroll = function(e,w,h) {
     var scroll_speed = 10
-    var movement = (e.deltaY/53) * scroll_speed;
+    var movement = (e.deltaY / 53) * scroll_speed;
     this.on_resize(w + movement, h + movement)
 }
    
