@@ -18,7 +18,10 @@ VIZ.Value = function(args) {
     self.full_screen = false;
     self.height = args.height;
     self.width = args.width;
-    this.div.appendChild(VIZ.Config.plot(self));
+    var menu = VIZ.Config.plot(self);
+    this.div.appendChild(menu);
+    this.div.menu = menu;
+    console.log(this);
 
     this.n_lines = args.n_lines || 1;
     this.sim = args.sim;
