@@ -8,6 +8,11 @@
 VIZ.Slider = function(args) {
     VIZ.Component.call(this, args);
     var self = this;
+
+    this.max_value = args.max_value;
+
+    this.min_value = args.min_value;
+
     this.div.appendChild(VIZ.Config.slider(self, args.min_value, args.max_value));
 
     VIZ.set_transform(this.label, 0, -20);
@@ -125,11 +130,28 @@ VIZ.Slider = function(args) {
         }
 
     this.on_resize(args.width, args.height);
+    //console.log(this);
+    this.div.addEventListener('mousewheel', function(e){
+        self.on_scroll(e)});    
 };
 
 
 VIZ.Slider.prototype = Object.create(VIZ.Component.prototype);
 VIZ.Slider.prototype.constructor = VIZ.Slider;
+
+VIZ.Slider.prototype.on_scroll = function(event) {
+    if (this.sliders.length > 1) {
+        return;
+    }
+    else{
+        var scroll_speed = 0.1;
+        var movement = (event.deltaY / 53) * scroll_speed;
+        var old_value = this.sliders[0].value;
+        var new_value = old_value - movement;
+        new_value = VIZ.max_min(new_value, this.min_value, this.max_value);
+        this.set_value(0, new_value);
+    }
+}
 
 VIZ.Slider.prototype.set_value = function(slider_index, value) {
     //Get the slider
@@ -145,7 +167,7 @@ VIZ.Slider.prototype.set_value = function(slider_index, value) {
     var height = this.slider_height;
 
     //Change shown text value to new value
-    target.firstChild.textContent = value;
+    target.firstChild.textContent = value.toFixed(2);
 
     //Change slider's value to value
     target.slider.value = value;
