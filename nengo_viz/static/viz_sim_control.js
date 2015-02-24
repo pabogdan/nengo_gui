@@ -46,6 +46,7 @@ VIZ.SimControl = function(div, args) {
     
     this.metrics_div = document.createElement('div');
     this.metrics_div.className = 'metrics-container';
+    this.metrics_div.style.height = 40;
     div.appendChild(this.metrics_div);
     /** Create the speed and rate update sliders */
     this.rate_div = document.createElement('div');
