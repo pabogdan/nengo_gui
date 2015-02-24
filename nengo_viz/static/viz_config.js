@@ -62,7 +62,7 @@ VIZ.Config.plot = function(self){
         }
     }
 
-    var full_screen = function() {  
+    var full_screen = function() { 
         if (self.full_screen == false){
             var h = $(window).height();
             var w = $(window).width();
@@ -81,12 +81,12 @@ VIZ.Config.plot = function(self){
             self.on_resize(self.old_w, self.old_h);
             self.div.style.backgroundColor = 'rgba(255,0,0,0)';
             VIZ.set_transform(self.div, self.old_x, self.old_y);
-            self.full_screen = false;            
+            self.full_screen = false;
         }
     }
 
     return VIZ.Config([
-    	['Toggle Full-screen',full_screen],
+    	['Toggle Full-screen', full_screen],
     	['Toggle X_Text', text_toggle]
     	]);
 }
@@ -112,8 +112,19 @@ VIZ.Config.slider = function(self, min, max) {
         new_val = VIZ.max_min(new_val, min, max);
         self.set_value(ind, new_val);
     }
+
+    var zero = function() {
+        var ind = 0;
+        if (self.sliders.length > 1) {
+            ind = prompt("Set for which slider [0 - " + (self.sliders.length - 1) + "]");
+        }
+        self.set_value(ind, 0.00);
+    }
     
-    return VIZ.Config([['Set Value', set_val]]);
+    return VIZ.Config([
+        ['Zero', zero],
+        ['Set Value', set_val]
+        ]);
 }
 
 /* EXAMPLE DROPDOWN 
