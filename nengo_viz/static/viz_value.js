@@ -21,7 +21,6 @@ VIZ.Value = function(args) {
     var menu = VIZ.Config.plot(self);
     this.div.appendChild(menu);
     this.div.menu = menu;
-    console.log(this);
 
     this.n_lines = args.n_lines || 1;
     this.sim = args.sim;
