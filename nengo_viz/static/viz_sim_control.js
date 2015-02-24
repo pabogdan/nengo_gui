@@ -222,7 +222,7 @@ VIZ.TimeSlider.prototype.update_times = function(time) {
 
 VIZ.TimeSlider.prototype.on_scroll = function(event) {
     //Arbitrary scroll speed that seems appropriate
-    var scroll_speed = 5;
+    var scroll_speed = 15;
     var movement = (event.deltaY / 53) * scroll_speed;
     this.time_adjust(movement, this.shown_div);
 }

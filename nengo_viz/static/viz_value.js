@@ -129,7 +129,7 @@ VIZ.Value.prototype.on_message = function(event) {
     this.schedule_update();
 }
 
-VIZ.Value.prototype.on_scroll = function(e,w,h) {
+VIZ.Value.prototype.on_scroll = function(e, w, h) {
     var scroll_speed = 10
     var movement = (e.deltaY / 53) * scroll_speed;
     this.on_resize(w + movement, h + movement)
