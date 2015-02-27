@@ -123,6 +123,7 @@ VIZ.TimeSlider = function(args) {
     
     /** scale to convert time to x value (in pixels) */
     this.kept_scale = d3.scale.linear();
+    this.kept_scale.domain([0.0 - this.kept_time, 0.0]);
     
     /** create the overall div */
     this.div = document.createElement('div');
@@ -135,9 +136,10 @@ VIZ.TimeSlider = function(args) {
     this.shown_div = document.createElement('div');
     this.shown_div.classList.add('shown_time');
     this.shown_div.style.position = 'fixed';
+    this.shown_div.shown_time = this.shown_time;
     this.div.appendChild(this.shown_div);
 
-    this.kept_scale.domain([0.0 - this.kept_time, 0.0]);
+    
 
     this.resize(args.width, args.height);
 
@@ -174,6 +176,10 @@ VIZ.TimeSlider.prototype.time_adjust = function(dx, target) {
     var self = this;
     /** determine where we have been dragged to in time */
     var x = self.kept_scale(self.first_shown_time) + dx;
+
+
+
+
     var new_time = self.kept_scale.invert(x);
 
     /** make sure we're within bounds */
@@ -183,8 +189,8 @@ VIZ.TimeSlider.prototype.time_adjust = function(dx, target) {
     if (new_time < self.last_time - self.kept_time) {
         new_time = self.last_time - self.kept_time;
     }
+
     self.first_shown_time = new_time;
-    
     x = self.kept_scale(new_time);
     VIZ.set_transform(target, x, 0);
 
@@ -222,8 +228,22 @@ VIZ.TimeSlider.prototype.update_times = function(time) {
 }
 
 VIZ.TimeSlider.prototype.on_scroll = function(event) {
+    var self = this;
     //Arbitrary scroll speed that seems appropriate
-    var scroll_speed = 15;
+    //console.log(self.kept_scale(self.first_shown_time))
+    //console.log(self.kept_scale(self.first_shown_time + self.shown_time))
+    console.log(self.first_shown_time)
+    var scroll_speed = 0.1;
     var movement = (event.deltaY / 53) * scroll_speed;
-    this.time_adjust(movement, this.shown_div);
-}
+    var new_shown_time = Number((this.shown_time + movement).toFixed(2));
+    if (new_shown_time > 0 && new_shown_time <= this.kept_time) {
+        this.shown_time = new_shown_time;
+        console.log(this.shown_time)
+        var kopl = self.kept_scale(self.first_shown_time + self.shown_time);
+        console.log(kopl);
+        this.shown_div.style.width = kopl;
+    }
+    else{
+        return;
+    }
+ }

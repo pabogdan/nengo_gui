@@ -122,6 +122,7 @@ VIZ.Raster.prototype.on_message = function(event) {
 /**
  * Redraw the lines and axis due to changed data
  */
+ 
 VIZ.Raster.prototype.update = function() {
     /** let the data store clear out old values */
     this.data_store.update();
