@@ -1,6 +1,8 @@
 /** namespace for all Nengo visualization */
 var VIZ = {};
 
+VIZ.zoom_allowed = true;
+
 /**
  * Helper function to set the transform of an element.
  */
@@ -29,9 +31,11 @@ VIZ.Component = function(args) {
     this.div.style.width = args.width;
     this.div.style.height = args.height;
     VIZ.set_transform(this.div, args.x, args.y);
-    this.div.style.position = 'fixed';
+    //this.div.style.position = 'fixed';
     this.div.classList.add('graph');
-    args.parent.appendChild(this.div);
+    //args.parent.appendChild(this.div);
+    var content = document.getElementById("content");
+    content.appendChild(this.div);
     this.parent = args.parent;
 
     self.minWidth = 100;
@@ -58,13 +62,18 @@ VIZ.Component = function(args) {
                 elementRect: {top: 0, left: 0, bottom: 1, right: 1 }
             },
             onmove: function (event) {
+                VIZ.zoom_allowed = false;
                 var target = event.target;
                 var x = parseFloat(target.getAttribute('data-x')) + event.dx;
                 var y = parseFloat(target.getAttribute('data-y')) + event.dy;
                 VIZ.set_transform(target, x, y);
                 target.setAttribute('data-x', x);
-                target.setAttribute('data-y', y);                  
+                target.setAttribute('data-y', y);               
+            },
+            onend:  function () {
+                VIZ.zoom_allowed = true;
             }
+
         })
 
     /** Allow element to be resized */ 

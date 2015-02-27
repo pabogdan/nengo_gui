@@ -1,6 +1,10 @@
 <html>
 <head>
     <script src="static/interact-1.2.2.js"></script>
+    <script src="static/Animate.js"></script>
+    <script src="static/Scroller.js"></script>
+    <script src="static/asset/render.js"></script>
+
     <script src="static/d3.v3.min.js" charset="utf-8"></script>
     <link href="static/main.css" rel="stylesheet" type="text/css" />
     <script src="static/viz.js"></script>
@@ -12,17 +16,39 @@
     <script src="static/viz_slider.js"></script>
     <link href="static/viz_slider.css" rel="stylesheet" type="text/css" />
     <script src="static/viz_sim_control.js"></script>
-    <link href="static/viz_sim_control.css" rel="stylesheet" type="text/css" />    
+    <link href="static/viz_sim_control.css" rel="stylesheet" type="text/css" />
+
+
+
+
 <script>
 function onload() {
-main = document.getElementById("main");
+main = document.getElementById("container");
 control = document.getElementById("control");
 %(components)s
 }
+        var contentWidth = 2000;
+        var contentHeight = 2000;
+
+    
+
 </script>
 </head>
 <body onload="onload();">
-<div id="main"></div>
+<div id="container">
+    <div id="content"></div>
+</div>
 <div id="control"></div>
+
+<script src="static/asset/ui.js"></script> 
+<style type="text/css">
+#container{
+    border: 6px solid red;
+}
+#content{
+    border: 1px solid black;
+}
+    
+</style>
 </body>
 </html>
