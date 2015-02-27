@@ -55,12 +55,8 @@ VIZ.Component = function(args) {
     this.div.setAttribute('data-y', args.y);
     interact(this.div)
         .draggable({
-            inertia: true,
-            restrict: {
-                restriction: "parent",
-                endOnly: true,
-                elementRect: {top: 0, left: 0, bottom: 1, right: 1 }
-            },
+            inertia: false,
+
             onmove: function (event) {
                 VIZ.zoom_allowed = false;
                 var target = event.target;
