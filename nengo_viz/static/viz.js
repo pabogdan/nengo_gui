@@ -32,7 +32,7 @@ VIZ.Component = function(args) {
     this.div.style.width = args.width;
     this.div.style.height = args.height;
     VIZ.set_transform(this.div, args.x, args.y);
-    this.div.style.position = 'fixed';
+    this.div.style.position = 'absolute';
     this.div.classList.add('graph');
     args.parent.appendChild(this.div);
     this.parent = args.parent;
