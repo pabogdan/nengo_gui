@@ -134,7 +134,6 @@ VIZ.Value.prototype.on_hover_out = function() {
 }
 
 VIZ.Value.prototype.on_scroll = function(e) {
-    console.log("trash")
     var scroll_speed = 10;
     var movement = (e.deltaY / 53) * scroll_speed;
     this.on_resize(this.width + movement, this.height + movement);

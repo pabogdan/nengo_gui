@@ -92,6 +92,7 @@ VIZ.Component = function(args) {
 
     /** flag whether there is a scheduled update that hasn't happened yet */
     this.pending_update = false;
+    console.log(this);
 };
 
 /**
