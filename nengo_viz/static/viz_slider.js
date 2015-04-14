@@ -220,25 +220,38 @@ VIZ.Slider.prototype.generate_menu = function() {
 };
 
 VIZ.Slider.prototype.user_value = function () {
-    var new_value = prompt('set value');
-    
-    if (new_value == null) {
-        return;
-    };
-    new_value = new_value.split(',');
+    var self = this
+    var new_value; 
+    bootbox.prompt({
+          title: "What is your real name?",
+          value: "makeusabrew",
+          callback: function(result) {
+            if (result === null) {
+              console.log("Prompt dismissed");
+            } else {
+              console.log("Hi <b>"+result+"</b>");
+                  new_value = result.split(',');
 
-    var slider_range = this.scale.domain();
+    var slider_range = self.scale.domain();
 
-    for (var i = 0; i < this.sliders.length; i++){
+    for (var i = 0; i < self.sliders.length; i++){
         if (!(VIZ.is_num(new_value[i]))) {
             alert("invalid input " + new_value[i]);
             break;
         }
         insert_value = VIZ.max_min(new_value[i], slider_range[1], slider_range[0]);
 
-        this.set_value(i, insert_value);
+        self.set_value(i, insert_value);
     }
-    this.save_layout();
+    self.save_layout();
+            }
+          }
+        });
+            
+            if (new_value == null) {
+                return;
+            };
+
 }
 
 VIZ.Slider.prototype.set_range = function() {
