@@ -1,4 +1,8 @@
 /**
+ * Value function is called by python server when a user requests a plot 
+ * or when the config file is making graphs. Server request is handled in 
+ * netgraph.js {.on_message} function.
+ *
  * Line graph showing decoded values over time
  * @constructor
  *

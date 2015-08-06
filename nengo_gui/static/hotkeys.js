@@ -1,3 +1,11 @@
+//Initializes all hotkey behaviour
+
+/**
+ * Initializes hotkeys
+ * @constructor
+ *
+ * Nengo.Hotkeys is called when this file is loaded
+ */
 Nengo.Hotkeys = function () {
     var self = this;
 

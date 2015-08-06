@@ -5,6 +5,8 @@ Nengo.user_settings = [];
 
 Nengo.max_zindex = 0;
 
+
+//////***Miscellaneous Functions***////////////
 /**
  * Helper function to clip a number, keeping it between two values.
  */
@@ -26,18 +28,6 @@ Nengo.set_transform = function(element, x, y) {
         element.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
 }
 
-
-Nengo.get_transform = function(element) {
-    if ($(element).css('transform') === undefined) {
-       var target = '-webkit-transform';
-    } else {
-       var target = 'transform';
-    }
-    //Ugly method of finding the current transform of the element
-    var holde = $(element).css(target).match(/(-?[0-9\.]+)/g);
-    return {x:Number(holde[4]), y:Number(holde[5])};
-}
-
 /**
  * Create a WebSocket connection to the given id
  */
@@ -50,9 +40,42 @@ Nengo.create_websocket = function(uid) {
     return ws;
 };
 
+/**
+ * Generate a color sequence of a given length.
+ *
+ * Colors are defined using a color blind-friendly palette.
+ */
+Nengo.make_colors = function(N) {
+    //Color blind palette with blue, green, red, magenta, yellow, cyan
+    var palette=["#1c73b3","#039f74","#d65e00","#cd79a7","#f0e542","#56b4ea"];
+    var c = [];
+
+    for (var i = 0; i < N; i++) {
+        c.push(palette[i % palette.length]);
+    }
+    return c;
+}
+
+//Check if a string value represents a number
+Nengo.is_num = function(value){
+    if (!(isNaN(value)) && !(value.trim() == '') ) {
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+Nengo.next_zindex = function() {
+    Nengo.max_zindex++;
+    return Nengo.max_zindex;
+}
+//////////////////////////////
 
 /**
  * Base class for interactive visualization
+ * Components (value/raster/XY plots, sliders, etc...) will inherit from
+ * this class.
  * @constructor
  *
  * @param {dict} args - A set of constructor arguments, including:
@@ -63,6 +86,10 @@ Nengo.create_websocket = function(uid) {
  * @param {float} args.height - the height of the component (in pixels)
  * @param {boolean} args.label_visible - whether the label should be shown
  * @param {int} args.id - the id of the server-side component to connect to
+ *
+ * Component is inherited by specific component 
+ * class prototypes (ie. Slider, Value)
+ *
  */
 Nengo.Component = function(parent, args) {
     var self = this;
@@ -504,33 +531,4 @@ Nengo.DataStore.prototype.get_last_data = function() {
 }
 
 
-/**
- * Generate a color sequence of a given length.
- *
- * Colors are defined using a color blind-friendly palette.
- */
-Nengo.make_colors = function(N) {
-    //Color blind palette with blue, green, red, magenta, yellow, cyan
-    var palette=["#1c73b3","#039f74","#d65e00","#cd79a7","#f0e542","#56b4ea"];
-    var c = [];
 
-    for (var i = 0; i < N; i++) {
-        c.push(palette[i % palette.length]);
-    }
-    return c;
-}
-
-//Check if a string value represents a number
-Nengo.is_num = function(value){
-    if (!(isNaN(value)) && !(value.trim() == '') ) {
-        return true;
-    }
-    else{
-        return false;
-    }
-}
-
-Nengo.next_zindex = function() {
-    Nengo.max_zindex++;
-    return Nengo.max_zindex;
-}
