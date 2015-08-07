@@ -800,8 +800,8 @@ Nengo.NetGraphItem.prototype.get_screen_location = function() {
         var w = $(this.ng.minimap).width() * this.ng.mm_scale;
         var h = $(this.ng.minimap).height() * this.ng.mm_scale;
 
-        var offsetX = -this.ng.mm_min_x * w;
-        var offsetY = -this.ng.mm_min_y * h;
+        var offsetX = 0;
+        var offsetY = 0;
     };
 
     var dx = 0;
